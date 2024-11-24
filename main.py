@@ -9,7 +9,7 @@ import os
 JSON_FILE_PATH = "C:\\Users\\user\\Documents\\chat.json"
 TIMEZONE = 'Asia/Yekaterinburg'
 DATE_FORMAT = '%d.%m.%Y %H:%M:%S'
-OBSIDIAN_DATE_FORMAT = '%Y-%m-%d'
+
 
 def format_timestamp(timestamp: str) -> str:
     """Форматирование временной метки в удобочитаемый вид"""
@@ -17,10 +17,7 @@ def format_timestamp(timestamp: str) -> str:
     local_dt = pytz.timezone(TIMEZONE).fromutc(dt)
     return local_dt.strftime(DATE_FORMAT)
 
-def get_obsidian_date(timestamp: str) -> str:
-    """Получение даты в формате Obsidian"""
-    dt = datetime.strptime(timestamp, '%a, %d %b %Y %H:%M:%S GMT')
-    return dt.strftime(OBSIDIAN_DATE_FORMAT)
+
 
 def load_json_data(file_path: str) -> Dict:
     """Загрузка данных из JSON файла"""

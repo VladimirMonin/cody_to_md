@@ -1,7 +1,10 @@
 from typing import Dict, List
 from datetime import datetime
 
+
 # Шаблоны для Markdown
+
+OBSIDIAN_DATE_FORMAT = '%Y-%m-%d'
 MD_TEMPLATE = """---
 project: cody_chat
 date: {date}
@@ -48,6 +51,11 @@ def format_code_block(text: str) -> str:
         i += 1
     return '\n'.join(formatted_lines)
 
+def get_obsidian_date(timestamp: str) -> str:
+    """Получение даты в формате Obsidian"""
+    dt = datetime.strptime(timestamp, '%a, %d %b %Y %H:%M:%S GMT')
+    return dt.strftime(OBSIDIAN_DATE_FORMAT)
+
 def format_markdown(messages: List[Dict], timestamp: str, formatted_date: str) -> str:
     """Форматирование сообщений в Markdown"""
     content = []
@@ -80,7 +88,7 @@ def format_markdown(messages: List[Dict], timestamp: str, formatted_date: str) -
         content.append("".join(pair) + DIALOG_SEPARATOR)
     
     return MD_TEMPLATE.format(
-        date=timestamp,
+        date=get_obsidian_date(timestamp),
         formatted_date=formatted_date,
         content="".join(content)
     )
