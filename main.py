@@ -1,3 +1,4 @@
+from markdown_formatter import format_markdown, save_to_markdown, format_code_block
 from typing import Dict, List
 import json
 from datetime import datetime
@@ -9,23 +10,6 @@ JSON_FILE_PATH = "C:\\Users\\user\\Documents\\chat.json"
 TIMEZONE = 'Asia/Yekaterinburg'
 DATE_FORMAT = '%d.%m.%Y %H:%M:%S'
 OBSIDIAN_DATE_FORMAT = '%Y-%m-%d'
-
-# Шаблон для Markdown
-MD_TEMPLATE = """---
-project: cody_chat
-date: {date}
----
-
-# Чат от {formatted_date}
-
-{content}"""
-
-MESSAGE_TEMPLATE = """### {role}
-{text}
-{context}
----
-
-"""
 
 def format_timestamp(timestamp: str) -> str:
     """Форматирование временной метки в удобочитаемый вид"""
@@ -59,7 +43,7 @@ def format_messages(data: Dict, timestamp: str, include_context: bool = True) ->
         if 'humanMessage' in interaction:
             message = {
                 'role': 'Пользователь',
-                'text': interaction['humanMessage']['text'],
+                'text': format_code_block(interaction['humanMessage']['text']),
                 'context': []
             }
             if include_context and 'contextFiles' in interaction['humanMessage']:
@@ -72,7 +56,7 @@ def format_messages(data: Dict, timestamp: str, include_context: bool = True) ->
         if 'assistantMessage' in interaction:
             formatted_messages.append({
                 'role': 'ИИ',
-                'text': interaction['assistantMessage']['text'],
+                'text': format_code_block(interaction['assistantMessage']['text']),
                 'context': []
             })
     return formatted_messages
@@ -87,33 +71,6 @@ def print_terminal_messages(messages: List[Dict]) -> None:
             for file_path in message['context']:
                 print(f"- {file_path}")
         print("---\n")
-
-def format_markdown(messages: List[Dict], timestamp: str, formatted_date: str) -> str:
-    """Форматирование сообщений в Markdown"""
-    content = []
-    for message in messages:
-        context_text = ""
-        if message['context']:
-            context_text = "\nПрикрепленные файлы:\n" + "\n".join(f"- {path}" for path in message['context'])
-        
-        content.append(MESSAGE_TEMPLATE.format(
-            role=message['role'],
-            text=message['text'],
-            context=context_text
-        ))
-    
-    return MD_TEMPLATE.format(
-        date=get_obsidian_date(timestamp),
-        formatted_date=formatted_date,
-        content="".join(content)
-    )
-
-def save_to_markdown(content: str, chat_date: str) -> str:
-    """Сохранение чата в MD файл"""
-    filename = f"chat_{chat_date.replace(':', '-').replace(' ', '_')}.md"
-    with open(filename, 'w', encoding='utf-8') as file:
-        file.write(content)
-    return filename
 
 def print_available_chats(timestamps: List[tuple]) -> None:
     """Вывод списка доступных чатов"""
@@ -152,7 +109,6 @@ def main():
             
     except (ValueError, IndexError):
         print("Некорректный выбор чата")
-
 
 if __name__ == "__main__":
     main()
