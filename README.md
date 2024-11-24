@@ -72,3 +72,54 @@ pip install -r requirements.txt
 
 ## ⚖️ Лицензия
 MIT License
+
+---
+### 📦 Installation
+
+1. Clone the repository
+2. Install dependencies:
+
+
+git clone ...
+pip install -r requirements.txt
+
+
+## 🚀 Usage
+
+### Export chats from Cody
+
+- Open VSCode
+- Open command palette `ctrl + shift + p`
+- Select `Cody: Export Chat as JSON`
+- Choose save location
+- Specify filename in `main.py` in the `JSON_FILE_PATH` constant
+- Run `main.py`
+
+## 🔜 Development Plans
+
+### AI Post-processing of Chats:
+- Automatic summarization
+- Key ideas extraction
+- Summary generation
+
+### HTML Export:
+- Creating stylish reports
+- Interactive navigation
+- Code highlighting
+- Code copy functionality
+- Auto-populated headers menu
+
+### Additional Export Formats:
+- PDF
+- Docx
+
+## 🤝 Contributing
+1. Fork the repository
+2. Create a feature branch
+3. Commit your changes
+4. Push and create a Pull Request
+
+## ⚖️ License
+MIT License
+
+---
