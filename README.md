@@ -80,7 +80,7 @@ MIT License
 2. Install dependencies:
 
 
-git clone ...
+git clone https://github.com/VladimirMonin/cody_to_md.git
 pip install -r requirements.txt
 
 
